@@ -11,15 +11,18 @@ import { handleApplicationErrors } from "@/middlewares";
 import {
   usersRouter,
   authenticationRouter,
+  characterRouter,
+  enemyRouter
 } from "@/routers";
 
 const app = express();
 app
   .use(cors())
   .use(express.json())
-  .get("/test", (_req, res) => res.send("OK!"))
   .use("/users", usersRouter)
   .use("/auth", authenticationRouter)
+  .use("/character", characterRouter)
+  .use("/enemy", enemyRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {

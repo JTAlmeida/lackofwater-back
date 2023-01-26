@@ -1,29 +1,74 @@
 import { PrismaClient } from "@prisma/client";
-import { Scenes } from "./seedHelper";
+import { Scenes, Options, Enemies, Items, EnemyItems, SceneOptions } from "./seedHelper";
 const prisma = new PrismaClient();
 
 async function main() {
-  await cleanDb();
   await seedScenes();
-}
-
-async function cleanDb() {
-  await prisma.characterItems.deleteMany({});
-  await prisma.enemyItems.deleteMany({});
-  await prisma.session.deleteMany({});
-  await prisma.character.deleteMany({});
-  await prisma.user.deleteMany({});
-  await prisma.item.deleteMany({});
-  await prisma.sceneOptions.deleteMany({});
-  await prisma.scene.deleteMany({});
-  await prisma.enemy.deleteMany({});
-  await prisma.option.deleteMany({});
+  await seedOptions();
+  await seedEnemies();
+  await seedItems();
+  await seedEnemyItems();
+  await seedSceneOptions();
 }
 
 async function seedScenes() {
-  await prisma.scene.createMany({
-    data: Scenes
-  });
+  const scenes = await prisma.scene.findFirst();
+
+  if (!scenes) {
+    await prisma.scene.createMany({
+      data: Scenes,
+    });
+  }
+}
+
+async function seedOptions() {
+  const options = await prisma.option.findFirst();
+
+  if (!options) {
+    await prisma.option.createMany({
+      data: Options,
+    });
+  }
+}
+
+async function seedEnemies(){
+  const enemies = await prisma.enemy.findFirst();
+
+  if(!enemies){
+    await prisma.enemy.createMany({
+      data: Enemies,
+    })
+  }
+}
+
+async function seedItems(){
+  const items = await prisma.item.findFirst();
+
+  if(!items){
+    await prisma.item.createMany({
+      data: Items,
+    })
+  }
+}
+
+async function seedEnemyItems(){
+  const enemyItems = await prisma.enemyItem.findFirst();
+
+  if(!enemyItems){
+    await prisma.enemyItem.createMany({
+      data: EnemyItems,
+    })
+  }
+}
+
+async function seedSceneOptions(){
+  const sceneOptions = await prisma.sceneOption.findFirst();
+
+  if (!sceneOptions){
+    await prisma.sceneOption.createMany({
+      data: SceneOptions,
+    })
+  }
 }
 
 main()

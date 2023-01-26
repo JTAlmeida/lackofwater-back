@@ -29,7 +29,7 @@ model Session {
 model Character {
   id              Int               @id @default(autoincrement())
   userId          Int
-  name            String
+  name            String            @db.VarChar(20)
   atk             Int               @default(20)
   def             Int               @default(4)
   hp              Int               @default(100)
@@ -39,34 +39,36 @@ model Character {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   User            User              @relation(fields: [userId], references: [id])
-  CharacterItems  CharacterItems[]
+  CharacterItems  CharacterItem[]
 }
 
 model Item {
   id              Int               @id @default(autoincrement())
-  description     String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  CharacterItems  CharacterItems[]
-  EnemyItems      EnemyItems[]
+  name            String            @db.VarChar(255)
+  description     String            @db.VarChar(255)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  CharacterItems  CharacterItem[]
+  EnemyItems      EnemyItem[]
 }
 
-model CharacterItems {
+model CharacterItem {
   id          Int        @id @default(autoincrement())
   characterId Int      
   itemId      Int
+  quantity    Int
   Character   Character  @relation(fields: [characterId], references: [id])
   Item        Item       @relation(fields: [itemId], references: [id])
 }
 model Scene {
   id                 Int      @id @default(autoincrement())
-  description        String 
+  description        String
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
-  SceneOptions    SceneOptions[]
+  SceneOptions       SceneOption[]
 }
 
-model SceneOptions {
+model SceneOption {
   id                Int      @id @default(autoincrement())
   sceneId           Int
   optionId          Int
@@ -75,9 +77,9 @@ model SceneOptions {
 }
 
 model Option {
-  id              Int      @id @default(autoincrement())
-  description     String
-  SceneOptions    SceneOptions[]
+  id              Int             @id @default(autoincrement())
+  description     String          @db.VarChar(255)
+  SceneOptions    SceneOption[]
 }
 
 model Enemy {
@@ -90,10 +92,10 @@ model Enemy {
   imgUrl      String
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
-  EnemyItems  EnemyItems[]
+  EnemyItems  EnemyItem[]
 }
 
-model EnemyItems {
+model EnemyItem {
   id          Int      @id @default(autoincrement())
   enemyId     Int      
   itemId      Int

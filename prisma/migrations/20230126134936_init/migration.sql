@@ -24,7 +24,7 @@ CREATE TABLE "Session" (
 CREATE TABLE "Character" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" VARCHAR(20) NOT NULL,
     "atk" INTEGER NOT NULL DEFAULT 20,
     "def" INTEGER NOT NULL DEFAULT 4,
     "hp" INTEGER NOT NULL DEFAULT 100,
@@ -40,7 +40,8 @@ CREATE TABLE "Character" (
 -- CreateTable
 CREATE TABLE "Item" (
     "id" SERIAL NOT NULL,
-    "description" TEXT NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "description" VARCHAR(255) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -48,12 +49,13 @@ CREATE TABLE "Item" (
 );
 
 -- CreateTable
-CREATE TABLE "CharacterItems" (
+CREATE TABLE "CharacterItem" (
     "id" SERIAL NOT NULL,
     "characterId" INTEGER NOT NULL,
     "itemId" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL,
 
-    CONSTRAINT "CharacterItems_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "CharacterItem_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -67,6 +69,23 @@ CREATE TABLE "Scene" (
 );
 
 -- CreateTable
+CREATE TABLE "SceneOption" (
+    "id" SERIAL NOT NULL,
+    "sceneId" INTEGER NOT NULL,
+    "optionId" INTEGER NOT NULL,
+
+    CONSTRAINT "SceneOption_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Option" (
+    "id" SERIAL NOT NULL,
+    "description" VARCHAR(255) NOT NULL,
+
+    CONSTRAINT "Option_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Enemy" (
     "id" SERIAL NOT NULL,
     "name" VARCHAR(255) NOT NULL,
@@ -74,6 +93,7 @@ CREATE TABLE "Enemy" (
     "def" INTEGER NOT NULL,
     "hp" INTEGER NOT NULL,
     "exp" INTEGER NOT NULL,
+    "imgUrl" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -81,13 +101,13 @@ CREATE TABLE "Enemy" (
 );
 
 -- CreateTable
-CREATE TABLE "EnemyItems" (
+CREATE TABLE "EnemyItem" (
     "id" SERIAL NOT NULL,
     "enemyId" INTEGER NOT NULL,
     "itemId" INTEGER NOT NULL,
     "dropChance" INTEGER NOT NULL,
 
-    CONSTRAINT "EnemyItems_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "EnemyItem_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -100,13 +120,19 @@ ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "Character" ADD CONSTRAINT "Character_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "CharacterItems" ADD CONSTRAINT "CharacterItems_characterId_fkey" FOREIGN KEY ("characterId") REFERENCES "Character"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "CharacterItem" ADD CONSTRAINT "CharacterItem_characterId_fkey" FOREIGN KEY ("characterId") REFERENCES "Character"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "CharacterItems" ADD CONSTRAINT "CharacterItems_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "CharacterItem" ADD CONSTRAINT "CharacterItem_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EnemyItems" ADD CONSTRAINT "EnemyItems_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "SceneOption" ADD CONSTRAINT "SceneOption_sceneId_fkey" FOREIGN KEY ("sceneId") REFERENCES "Scene"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EnemyItems" ADD CONSTRAINT "EnemyItems_enemyId_fkey" FOREIGN KEY ("enemyId") REFERENCES "Enemy"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "SceneOption" ADD CONSTRAINT "SceneOption_optionId_fkey" FOREIGN KEY ("optionId") REFERENCES "Option"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "EnemyItem" ADD CONSTRAINT "EnemyItem_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "EnemyItem" ADD CONSTRAINT "EnemyItem_enemyId_fkey" FOREIGN KEY ("enemyId") REFERENCES "Enemy"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

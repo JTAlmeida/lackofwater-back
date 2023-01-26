@@ -1,7 +1,22 @@
-import { Scene, Enemy } from "@prisma/client";
+import { Scene, Enemy, Option, Item, EnemyItem, SceneOption } from "@prisma/client";
 
 type CreateScene = Omit<Scene, "id" | "createdAt" | "updatedAt">;
 type CreateManyScenes = CreateScene[];
+
+type CreateOption = Omit<Option, "id">;
+type CreateManyOptions = CreateOption[];
+
+type CreateEnemy = Omit<Enemy, "id" | "createdAt" | "updatedAt">;
+type CreateManyEnemies = CreateEnemy[];
+
+type CreateItem = Omit<Item, "id" | "createdAt" | "updatedAt">;
+type CreateManyItems = CreateItem[];
+
+type CreateEnemyItem = Omit<EnemyItem, "id">;
+type CreateManyEnemyItems = CreateEnemyItem[];
+
+type CreateSceneOption = Omit<SceneOption, "id">
+type CreateManySceneOptions = CreateSceneOption[];
 
 const Scenes: CreateManyScenes = [
   {
@@ -21,8 +36,7 @@ const Scenes: CreateManyScenes = [
       "Ao ir pelo outro caminho você anda por alguns minutos e nota que tem um guarda mais forte, parecido com um escorpião, de costas.",
   },
   {
-    description:
-      "Você tenta assassinar o guarda, mas falha, ele reage no último instante e te golpeia (-10HP).",
+    description: "Você tenta assassinar o guarda, mas falha, ele reage no último instante e te golpeia (-10HP).",
   },
   {
     description:
@@ -37,13 +51,143 @@ const Scenes: CreateManyScenes = [
       "Por fim vence a árdua batalha e vê em um pedestal o “Fim da Humanidade”. Você o pega e escapa, restaurando a água para a humanidade e lhes garantindo a sobrevivência. Com os ânimos restaurados os humanos fazem uma nova investida e massacram o restante dos robôs! Infelizmente você não foi uma exceção... apesar de tê-los salvado ninguém o reconhecia como amigo e, por fim, viu que a raça humana não merecia sua compaixão pois são mesquinhos e egoístas.",
   },
   {
-    description:
-      "Você encontra um guarda no seu caminho enquanto mapeava o labirinto.",
+    description: "Você encontra um guarda no seu caminho enquanto mapeava o labirinto.",
   },
   {
-    description:
-      "Você anda sem encontrar desafios e se depara com uma bifurcação.",
+    description: "Você anda sem encontrar desafios e se depara com uma bifurcação.",
   },
 ];
 
-export { Scenes };
+const Options: CreateManyOptions = [
+  {
+    description: "ATACAR O GUARDA",
+  },
+  {
+    description: "IR PELO OUTRO CAMINHO",
+  },
+  {
+    description: "PROSSEGUIR COM O COMBATE",
+  },
+  {
+    description: "ASSASSINAR O GUARDA",
+  },
+  {
+    description: "VOLTAR E PROCURAR OUTRO CAMINHO",
+  },
+  {
+    description: "IR À ESQUERDA",
+  },
+  {
+    description: "IR À DIREITA",
+  },
+  {
+    description: "VOLTAR AO MENU INICIAL",
+  }
+];
+
+const Enemies: CreateManyEnemies = [
+  {
+    name: "Guarda",
+    atk: 10,
+    def: 2,
+    hp: 40,
+    exp: 50,
+    imgUrl:
+      "https://trello.com/1/cards/63c831995a5f1201c630a8e7/attachments/63cefaf7353a69058ecb7ef8/previews/63cefaf8353a69058ecb7f02/download/guard.png",
+  },
+  {
+    name: "Guarda de Elite",
+    atk: 20,
+    def: 5,
+    hp: 60,
+    exp: 100,
+    imgUrl:
+      "https://trello.com/1/cards/63c831995a5f1201c630a8e7/attachments/63cefaf480529af3754c766a/previews/63cefaf580529af3754c76d1/download/elite_guard.png",
+  },
+  {
+    name: "Rei Mechius",
+    atk: 30,
+    def: 8,
+    hp: 80,
+    exp: 10000,
+    imgUrl:
+      "https://trello.com/1/cards/63c831995a5f1201c630a8e7/attachments/63cefa7d5a990916ad57bd26/previews/63cefa7e5a990916ad57bd30/download/mechius.png",
+  },
+];
+
+const Items: CreateManyItems = [
+  {
+    name: "Poção de HP",
+    description: "Cura 50% da sua vida máxima",
+  },
+];
+
+const EnemyItems: CreateManyEnemyItems = [
+  {
+    enemyId: 1,
+    itemId: 1,
+    dropChance: 50,
+  },
+  {
+    enemyId: 2,
+    itemId: 1,
+    dropChance: 50,
+  },
+];
+
+const SceneOptions: CreateManySceneOptions = [
+  {
+    sceneId: 1,
+    optionId: 1,
+  },
+  {
+    sceneId: 1,
+    optionId: 2,
+  },
+  {
+    sceneId: 2,
+    optionId: 3,
+  },
+  {
+    sceneId: 3,
+    optionId: 3,
+  },
+  {
+    sceneId: 4,
+    optionId: 4,
+  },
+  {
+    sceneId: 4,
+    optionId: 5,
+  },
+  {
+    sceneId: 5,
+    optionId: 3,
+  },
+  {
+    sceneId: 6,
+    optionId: 3,
+  },
+  {
+    sceneId: 7,
+    optionId: 3,
+  },
+  {
+    sceneId: 8,
+    optionId: 8,
+  },
+  {
+    sceneId: 9,
+    optionId: 3,
+  },
+  {
+    sceneId: 10,
+    optionId: 6,
+  },
+  {
+    sceneId: 10,
+    optionId: 7,
+  },
+];
+
+export { Scenes, Options, Enemies, Items, EnemyItems, SceneOptions };

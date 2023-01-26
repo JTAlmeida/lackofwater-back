@@ -5,13 +5,13 @@ import { createSession } from "./factories/sessions-factory";
 import { prisma } from "@/config";
 
 export async function cleanDb() {
-  await prisma.characterItems.deleteMany({});
-  await prisma.enemyItems.deleteMany({});
+  await prisma.characterItem.deleteMany({});
+  await prisma.enemyItem.deleteMany({});
   await prisma.session.deleteMany({});
   await prisma.character.deleteMany({});
   await prisma.user.deleteMany({});
   await prisma.item.deleteMany({});
-  await prisma.sceneOptions.deleteMany({});
+  await prisma.sceneOption.deleteMany({});
   await prisma.scene.deleteMany({});
   await prisma.enemy.deleteMany({});
   await prisma.option.deleteMany({});
