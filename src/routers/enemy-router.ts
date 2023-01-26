@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { authenticateToken } from "@/middlewares";
-import { getEnemyByName } from "@/controllers";
+import { getEnemyById } from "@/controllers";
 
 const enemyRouter = Router();
 
 enemyRouter
   .all("/*", authenticateToken)
-  .get("/:enemyName", getEnemyByName);
+  .get("/:enemyId", getEnemyById);
 
 export { enemyRouter };

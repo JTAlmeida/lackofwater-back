@@ -12,7 +12,9 @@ import {
   usersRouter,
   authenticationRouter,
   characterRouter,
-  enemyRouter
+  enemyRouter,
+  sceneRouter,
+  itemRouter,
 } from "@/routers";
 
 const app = express();
@@ -23,6 +25,8 @@ app
   .use("/auth", authenticationRouter)
   .use("/character", characterRouter)
   .use("/enemy", enemyRouter)
+  .use("/scene", sceneRouter)
+  .use("/item", itemRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
