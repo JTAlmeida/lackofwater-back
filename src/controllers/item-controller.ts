@@ -14,13 +14,16 @@ export async function getAllItems(req: AuthenticatedRequest, res: Response) {
 }
 
 export async function getItemById(req: AuthenticatedRequest, res: Response) {
-  const { itemId } = req.body;
+  const { itemId } = req.params;
 
   try {
     const item = await itemService.getItemById(Number(itemId));
 
     return res.status(httpStatus.OK).send(item);
   } catch (error) {
+    if (error.name === "NotFoundError") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }

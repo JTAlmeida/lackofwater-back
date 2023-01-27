@@ -1,3 +1,4 @@
+import { notFoundError } from "@/errors";
 import itemRepository from "@/repositories/item-repository";
 
 async function getAllItems() {
@@ -8,6 +9,10 @@ async function getAllItems() {
 
 async function getItemById(itemId: number) {
   const item = await itemRepository.findItemById(itemId);
+
+  if(!item){
+    throw notFoundError();
+  }
 
   return item;
 }

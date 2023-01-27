@@ -6,4 +6,4 @@ export * from "./sceneOption-factory";
 export * from "./item-factory";
 export * from "./characterItem-factory";
 export * from "./enemy-factory";
-
+export * from "./enemyItem-factory";
