@@ -13,3 +13,10 @@ export function cannotUpdateCharacter(): ApplicationError {
     message: "You have no alive character!",
   };
 }
+
+export function cannotFindItem(): ApplicationError {
+  return {
+    name: "CannotFindItem",
+    message: "There is no item with given itemId!",
+  };
+}

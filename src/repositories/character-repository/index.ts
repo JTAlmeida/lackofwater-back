@@ -32,6 +32,27 @@ async function updateCharacter(characterId: number, charInfo: UpdateCharacterPar
   });
 }
 
+async function findCharacterItemByItemId(itemId: number) {
+  return prisma.characterItem.findFirst({
+    where: { itemId },
+  });
+}
+
+async function upsertCharacterItem(characterId: number, itemId: number, quantity: number, characterItemId: number) {
+
+  return prisma.characterItem.upsert({
+    where: { id: characterItemId },
+    create: {
+      characterId,
+      itemId,
+      quantity: 1,
+    },
+    update: {
+      quantity,
+    },
+  });
+}
+
 export type CreateCharacterParams = Omit<
   Character,
   "id" | "atk" | "def" | "hp" | "xp" | "lvl" | "isAlive" | "createdAt" | "updatedAt"
@@ -43,6 +64,9 @@ const characterRepository = {
   findAliveCharacterByUserId,
   createCharacter,
   updateCharacter,
+  //createCharacterItem,
+  findCharacterItemByItemId,
+  upsertCharacterItem,
 };
 
 export default characterRepository;

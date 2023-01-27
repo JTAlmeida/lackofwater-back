@@ -161,7 +161,7 @@ describe("POST /character", () => {
   });
 });
 
-describe("UPDATE /character", () => {
+describe("PUT /character", () => {
   it("should respond with status 401 if no token is given", async () => {
     const response = await server.put("/character");
 
@@ -230,6 +230,138 @@ describe("UPDATE /character", () => {
         createdAt: expect.any(String),
         updatedAt: expect.any(String),
       });
+    });
+  });
+});
+
+describe("PUT /character/:characterId/:itemId", () => {
+  it("should respond with status 401 if no token is given", async () => {
+    const response = await server.put("/character/1/1");
+
+    expect(response.status).toBe(httpStatus.UNAUTHORIZED);
+  });
+
+  it("should respond with status 401 if given token is not valid", async () => {
+    const token = faker.lorem.word();
+
+    const response = await server.put("/character/1/1").set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(httpStatus.UNAUTHORIZED);
+  });
+
+  it("should respond with status 401 if there is no session for given token", async () => {
+    const userWithoutSession = await createUser();
+    const token = jwt.sign({ userId: userWithoutSession.id }, process.env.JWT_SECRET);
+
+    const response = await server.put("/character/1/1").set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(httpStatus.UNAUTHORIZED);
+  });
+
+  describe("when token is valid", () => {
+    it("should respond with status 404 if there is no character for given characterId", async () => {
+      const user = await createUser();
+      const token = await generateValidToken(user);
+
+      const response = await server.put("/character/1/1").set("Authorization", `Bearer ${token}`).send({
+        quantity: 1,
+      });
+
+      expect(response.status).toEqual(httpStatus.NOT_FOUND);
+    });
+
+    it("should respond with status 404 if there is no item for given itemId", async () => {
+      const user = await createUser();
+      const token = await generateValidToken(user);
+      const charInfo = await createCharacter(user.id);
+
+      const response = await server.put(`/character/${charInfo.id}/1`).set("Authorization", `Bearer ${token}`).send({
+        quantity: 1,
+      });
+
+      expect(response.status).toEqual(httpStatus.NOT_FOUND);
+    });
+
+    it("should respond with status 200 and characterrItem data if there is no characterItem for given characterId and itemId", async () => {
+      const user = await createUser();
+      const token = await generateValidToken(user);
+      const char = await createCharacter(user.id);
+      const item = await createItem();
+
+      const response = await server
+        .put(`/character/${char.id}/${item.id}`)
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          quantity: 1,
+        });
+
+      expect(response.status).toEqual(httpStatus.OK);
+      expect(response.body).toEqual({
+        id: expect.any(Number),
+        characterId: char.id,
+        itemId: item.id,
+        quantity: 1,
+      });
+    });
+
+        it("should insert a new characterItem in the database if there is not one yet", async () => {
+      const user = await createUser();
+      const token = await generateValidToken(user);
+      const char = await createCharacter(user.id);
+      const item = await createItem();
+
+      const beforeCount = await prisma.characterItem.count();
+
+      await server.put(`/character/${char.id}/${item.id}`).set("Authorization", `Bearer ${token}`).send({
+        quantity: 1,
+      });
+
+      const afterCount = await prisma.characterItem.count();
+
+      expect(beforeCount).toEqual(0);
+      expect(afterCount).toEqual(1);
+    });
+
+    it("should respond with status 200 and updated characterrItem data if there is already a characterItem for given characterId and itemId", async () => {
+      const user = await createUser();
+      const token = await generateValidToken(user);
+      const char = await createCharacter(user.id);
+      const item = await createItem();
+      await createCharacterItem(item.id, char.id);
+
+      const response = await server
+        .put(`/character/${char.id}/${item.id}`)
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          quantity: 2,
+        });
+
+      expect(response.status).toEqual(httpStatus.OK);
+      expect(response.body).toEqual({
+        id: expect.any(Number),
+        characterId: char.id,
+        itemId: item.id,
+        quantity: 2,
+      });
+    });
+
+    it("shouldn't insert a new characterItem in the database if there is one already", async () => {
+      const user = await createUser();
+      const token = await generateValidToken(user);
+      const char = await createCharacter(user.id);
+      const item = await createItem();
+      await createCharacterItem(item.id, char.id);
+
+      const beforeCount = await prisma.characterItem.count();
+
+      await server.put(`/character/${char.id}/${item.id}`).set("Authorization", `Bearer ${token}`).send({
+        quantity: 2,
+      });
+
+      const afterCount = await prisma.characterItem.count();
+
+      expect(beforeCount).toEqual(1);
+      expect(afterCount).toEqual(1);
     });
   });
 });

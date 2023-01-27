@@ -54,3 +54,26 @@ export async function updateCharacter(req: AuthenticatedRequest, res: Response) 
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
+
+export async function upsertCharacterItem(req: AuthenticatedRequest, res: Response) {
+  const { userId } = req;
+  const characterId = req.params.characterId;
+  const itemId = req.params.itemId;
+  const { quantity } = req.body;
+
+  try {
+    const charItems = await characterService.upsertCharacterItem(
+      Number(userId),
+      Number(characterId),
+      Number(itemId),
+      Number(quantity),
+    );
+
+    return res.status(httpStatus.OK).send(charItems);
+  } catch (error) {
+    if (error.name === "CannotUpdateCharacter" || error.name === "CannotFindItem") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}
