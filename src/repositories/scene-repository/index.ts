@@ -6,12 +6,8 @@ async function findAllScenes() {
   });
 }
 
-async function findSceneById(sceneId: number) {
-  return prisma.scene.findFirst({ where: { id: sceneId } });
-}
 const sceneRepository = {
   findAllScenes,
-  findSceneById,
 };
 
 export default sceneRepository;

@@ -12,15 +12,3 @@ export async function getAllScenes(req: AuthenticatedRequest, res: Response) {
     return res.status(httpStatus.BAD_REQUEST).send({});
   }
 }
-
-export async function getSceneById(req: AuthenticatedRequest, res: Response) {
-  const { sceneId } = req.body;
-
-  try {
-    const scene = await sceneService.getSceneById(Number(sceneId));
-
-    return res.status(httpStatus.OK).send(scene);
-  } catch (error) {
-    return res.sendStatus(httpStatus.BAD_REQUEST);
-  }
-}

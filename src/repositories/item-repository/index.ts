@@ -7,6 +7,7 @@ async function findAllItems() {
 async function findItemById(itemId: number) {
   return prisma.item.findFirst({ where: { id: itemId } });
 }
+
 const itemRepository = {
   findAllItems,
   findItemById,
