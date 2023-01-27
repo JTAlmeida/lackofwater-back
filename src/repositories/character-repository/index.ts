@@ -18,14 +18,31 @@ async function createCharacter(character: CreateCharacterParams) {
   });
 }
 
+async function updateCharacter(characterId: number, charInfo: UpdateCharacterParams) {
+  return prisma.character.update({
+    where: { id: characterId },
+    data: {
+      atk: charInfo.atk,
+      def: charInfo.def,
+      hp: charInfo.hp,
+      xp: charInfo.xp,
+      lvl: charInfo.lvl,
+      isAlive: charInfo.isAlive,
+    },
+  });
+}
+
 export type CreateCharacterParams = Omit<
   Character,
   "id" | "atk" | "def" | "hp" | "xp" | "lvl" | "isAlive" | "createdAt" | "updatedAt"
 >;
 
+export type UpdateCharacterParams = Omit<Character, "id" | "userId" | "name" | "createdAt" | "updatedAt">;
+
 const characterRepository = {
   findAliveCharacterByUserId,
   createCharacter,
+  updateCharacter,
 };
 
 export default characterRepository;

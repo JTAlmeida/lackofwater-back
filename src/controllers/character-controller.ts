@@ -37,3 +37,20 @@ export async function createCharacter(req: AuthenticatedRequest, res: Response) 
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
+
+export async function updateCharacter(req: AuthenticatedRequest, res: Response) {
+  const { userId } = req;
+  const { characterId } = req.params;
+  const charInfo = req.body;
+
+  try {
+    const character = await characterService.updateCharacter(Number(userId), Number(characterId), charInfo);
+
+    return res.status(httpStatus.OK).send(character);
+  } catch (error) {
+    if (error.name === "CannotUpdateCharacter") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}

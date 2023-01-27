@@ -160,3 +160,76 @@ describe("POST /character", () => {
     });
   });
 });
+
+describe("UPDATE /character", () => {
+  it("should respond with status 401 if no token is given", async () => {
+    const response = await server.put("/character");
+
+    expect(response.status).toBe(httpStatus.UNAUTHORIZED);
+  });
+
+  it("should respond with status 401 if given token is not valid", async () => {
+    const token = faker.lorem.word();
+
+    const response = await server.put("/character").set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(httpStatus.UNAUTHORIZED);
+  });
+
+  it("should respond with status 401 if there is no session for given token", async () => {
+    const userWithoutSession = await createUser();
+    const token = jwt.sign({ userId: userWithoutSession.id }, process.env.JWT_SECRET);
+
+    const response = await server.put("/character").set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(httpStatus.UNAUTHORIZED);
+  });
+
+  describe("when token is valid", () => {
+    it("should respond with status 404 if there is no character for given characterId", async () => {
+      const user = await createUser();
+      const token = await generateValidToken(user);
+
+      const response = await server.put("/character/1").set("Authorization", `Bearer ${token}`).send({
+        atk: 1,
+        def: 1,
+        hp: 1,
+        xp: 1,
+        lvl: 1,
+        isAlive: true,
+      });
+
+      expect(response.status).toEqual(httpStatus.NOT_FOUND);
+    });
+
+    it("should respond with status 200 and character data", async () => {
+      const user = await createUser();
+      const token = await generateValidToken(user);
+      const charInfo = await createCharacter(user.id);
+
+      const response = await server.put(`/character/${charInfo.id}`).set("Authorization", `Bearer ${token}`).send({
+        atk: 1,
+        def: 2,
+        hp: 3,
+        xp: 4,
+        lvl: 5,
+        isAlive: false,
+      });
+
+      expect(response.status).toEqual(httpStatus.OK);
+      expect(response.body).toEqual({
+        id: expect.any(Number),
+        userId: user.id,
+        name: expect.any(String),
+        atk: 1,
+        def: 2,
+        hp: 3,
+        xp: 4,
+        lvl: 5,
+        isAlive: false,
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
+      });
+    });
+  });
+});

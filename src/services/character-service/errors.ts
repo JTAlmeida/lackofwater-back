@@ -6,3 +6,10 @@ export function cannotCreateCharacter(): ApplicationError {
     message: "You already have an alive character!",
   };
 }
+
+export function cannotUpdateCharacter(): ApplicationError {
+  return {
+    name: "CannotUpdateCharacter",
+    message: "You have no alive character!",
+  };
+}

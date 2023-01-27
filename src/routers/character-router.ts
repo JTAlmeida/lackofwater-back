@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { authenticateToken } from "@/middlewares";
-import { createCharacter, getAliveCharacter } from "@/controllers";
+import { createCharacter, getAliveCharacter, updateCharacter } from "@/controllers";
 
 const characterRouter = Router();
 
 characterRouter
   .all("/*", authenticateToken)
   .get("/", getAliveCharacter)
-  .post("/", createCharacter);
+  .post("/", createCharacter)
+  .put("/:characterId", updateCharacter);
 
 export { characterRouter };

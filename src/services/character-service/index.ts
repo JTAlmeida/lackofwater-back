@@ -1,6 +1,7 @@
 import { notFoundError } from "@/errors";
 import characterRepository from "@/repositories/character-repository";
-import { cannotCreateCharacter } from "./errors";
+import { Character } from "@prisma/client";
+import { cannotCreateCharacter, cannotUpdateCharacter } from "./errors";
 
 async function getAliveCharacter(userId: number) {
   const aliveChar = await characterRepository.findAliveCharacterByUserId(userId);
@@ -31,9 +32,24 @@ async function createCharacter(userId: number, name: string) {
   return newChar;
 }
 
+async function updateCharacter(userId: number, characterId: number, charInfo: UpdateCharacterParams) {
+  const checkAliveCharacter = await characterRepository.findAliveCharacterByUserId(userId);
+
+  if (!checkAliveCharacter) {
+    throw cannotUpdateCharacter();
+  }
+
+  const updatedChar = await characterRepository.updateCharacter(characterId, charInfo);
+
+  return updatedChar;
+}
+
+export type UpdateCharacterParams = Omit<Character, "id" | "userId" | "name" | "createdAt" | "updatedAt">;
+
 const characterService = {
   getAliveCharacter,
   createCharacter,
+  updateCharacter,
 };
 
 export default characterService;
