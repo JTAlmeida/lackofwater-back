@@ -6,15 +6,8 @@ async function getAllScenes() {
   return scenes;
 }
 
-async function getSceneById(sceneId: number) {
-  const scene = await sceneRepository.findSceneById(sceneId);
-
-  return scene;
-}
-
 const sceneService = {
   getAllScenes,
-  getSceneById,
 };
 
 export default sceneService;
