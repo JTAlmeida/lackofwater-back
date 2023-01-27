@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { authenticateToken } from "@/middlewares";
-import { getItemById } from "@/controllers";
+import { getItemById, getAllItems } from "@/controllers";
 
 const itemRouter = Router();
 
 itemRouter
   .all("/*", authenticateToken)
+  .get("/", getAllItems)
   .get("/:itemId", getItemById);
 
 export { itemRouter };

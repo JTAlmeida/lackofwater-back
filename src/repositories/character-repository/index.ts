@@ -2,12 +2,19 @@ import { prisma } from "@/config";
 import { Character } from "@prisma/client";
 
 async function findAliveCharacterByUserId(userId: number) {
-  return prisma.character.findFirst({ where: { isAlive: true } });
+  return prisma.character.findFirst({
+    where: { userId, isAlive: true },
+    include: {
+      CharacterItems: {
+        include: { Item: { select: { name: true, description: true } } },
+      },
+    },
+  });
 }
 
 async function createCharacter(character: CreateCharacterParams) {
   return prisma.character.create({
-    data: {...character},
+    data: { ...character },
   });
 }
 
@@ -17,8 +24,8 @@ export type CreateCharacterParams = Omit<
 >;
 
 const characterRepository = {
-    findAliveCharacterByUserId,
-    createCharacter
-  };
-  
-  export default characterRepository;
+  findAliveCharacterByUserId,
+  createCharacter,
+};
+
+export default characterRepository;

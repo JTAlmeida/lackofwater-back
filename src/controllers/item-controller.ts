@@ -1,12 +1,26 @@
 import { AuthenticatedRequest } from "@/middlewares";
+import itemService from "@/services/item-service";
 import { Response } from "express";
 import httpStatus from "http-status";
 
-export async function getItemById(req: AuthenticatedRequest, res: Response) {
-
+export async function getAllItems(req: AuthenticatedRequest, res: Response) {
   try {
-    return res.sendStatus(httpStatus.OK);
+    const items = await itemService.getAllItems();
+
+    return res.status(httpStatus.OK).send(items);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({});
+  }
+}
+
+export async function getItemById(req: AuthenticatedRequest, res: Response) {
+  const { itemId } = req.body;
+
+  try {
+    const item = await itemService.getItemById(Number(itemId));
+
+    return res.status(httpStatus.OK).send(item);
+  } catch (error) {
+    return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }

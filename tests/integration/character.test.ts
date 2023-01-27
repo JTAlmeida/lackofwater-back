@@ -4,8 +4,7 @@ import faker from "@faker-js/faker";
 import httpStatus from "http-status";
 import * as jwt from "jsonwebtoken";
 import supertest from "supertest";
-import { createUser } from "../factories";
-import { createCharacter } from "../factories/character-factory";
+import { createUser, createCharacter, createItem, createCharacterItem } from "../factories";
 import { cleanDb, generateValidToken } from "../helpers";
 
 beforeAll(async () => {
@@ -20,7 +19,7 @@ const server = supertest(app);
 
 describe("GET /character", () => {
   it("should respond with status 401 if no token is given", async () => {
-    const response = await server.post("/character");
+    const response = await server.get("/character");
 
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
   });
@@ -28,7 +27,7 @@ describe("GET /character", () => {
   it("should respond with status 401 if given token is not valid", async () => {
     const token = faker.lorem.word();
 
-    const response = await server.post("/character").set("Authorization", `Bearer ${token}`);
+    const response = await server.get("/character").set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
   });
@@ -37,7 +36,7 @@ describe("GET /character", () => {
     const userWithoutSession = await createUser();
     const token = jwt.sign({ userId: userWithoutSession.id }, process.env.JWT_SECRET);
 
-    const response = await server.post("/character").set("Authorization", `Bearer ${token}`);
+    const response = await server.get("/character").set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
   });
@@ -56,6 +55,8 @@ describe("GET /character", () => {
       const user = await createUser();
       const token = await generateValidToken(user);
       const character = await createCharacter(user.id);
+      const item = await createItem();
+      const characterItems = await createCharacterItem(item.id, character.id);
 
       const response = await server.get("/character").set("Authorization", `Bearer ${token}`);
 
@@ -72,6 +73,15 @@ describe("GET /character", () => {
         isAlive: true,
         createdAt: expect.any(String),
         updatedAt: expect.any(String),
+        CharacterItems: [
+          {
+            id: characterItems.id,
+            characterId: character.id,
+            itemId: item.id,
+            quantity: characterItems.quantity,
+            Item: { name: item.name, description: item.description },
+          },
+        ],
       });
     });
   });
@@ -131,6 +141,7 @@ describe("POST /character", () => {
         isAlive: true,
         createdAt: expect.any(String),
         updatedAt: expect.any(String),
+        CharacterItems: [],
       });
     });
 

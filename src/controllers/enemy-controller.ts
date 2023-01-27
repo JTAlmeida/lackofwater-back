@@ -6,6 +6,6 @@ export async function getEnemyById(req: AuthenticatedRequest, res: Response) {
   try {
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
-    return res.status(httpStatus.BAD_REQUEST).send({});
+    return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
