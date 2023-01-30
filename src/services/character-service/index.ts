@@ -71,7 +71,6 @@ const characterService = {
   getAliveCharacter,
   createCharacter,
   updateCharacter,
-  //createCharacterItem,
   upsertCharacterItem,
 };
 

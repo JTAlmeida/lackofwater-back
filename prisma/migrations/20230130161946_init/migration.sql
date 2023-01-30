@@ -24,6 +24,7 @@ CREATE TABLE "Session" (
 CREATE TABLE "Character" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
+    "currentSceneId" INTEGER NOT NULL DEFAULT 1,
     "name" VARCHAR(20) NOT NULL,
     "atk" INTEGER NOT NULL DEFAULT 20,
     "def" INTEGER NOT NULL DEFAULT 4,

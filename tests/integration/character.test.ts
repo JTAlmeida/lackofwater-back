@@ -64,6 +64,7 @@ describe("GET /character", () => {
       expect(response.body).toEqual({
         id: character.id,
         userId: user.id,
+        currentSceneId: character.currentSceneId,
         name: character.name,
         atk: character.atk,
         def: character.def,
@@ -132,6 +133,7 @@ describe("POST /character", () => {
       expect(response.body).toEqual({
         id: expect.any(Number),
         userId: user.id,
+        currentSceneId: expect.any(Number),
         name: expect.any(String),
         atk: expect.any(Number),
         def: expect.any(Number),
@@ -221,6 +223,7 @@ describe("PUT /character", () => {
         id: expect.any(Number),
         userId: user.id,
         name: expect.any(String),
+        currentSceneId: 1,
         atk: 1,
         def: 2,
         hp: 3,
@@ -282,7 +285,7 @@ describe("PUT /character/:characterId/:itemId", () => {
       expect(response.status).toEqual(httpStatus.NOT_FOUND);
     });
 
-    it("should respond with status 200 and characterrItem data if there is no characterItem for given characterId and itemId", async () => {
+    it("should respond with status 200 and characterItem data if there is no characterItem for given characterId and itemId", async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
       const char = await createCharacter(user.id);
@@ -304,7 +307,7 @@ describe("PUT /character/:characterId/:itemId", () => {
       });
     });
 
-        it("should insert a new characterItem in the database if there is not one yet", async () => {
+    it("should insert a new characterItem in the database if there is not one yet", async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
       const char = await createCharacter(user.id);

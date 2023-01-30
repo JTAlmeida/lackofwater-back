@@ -29,6 +29,7 @@ model Session {
 model Character {
   id              Int               @id @default(autoincrement())
   userId          Int
+  currentSceneId  Int               @default(1)
   name            String            @db.VarChar(20)
   atk             Int               @default(20)
   def             Int               @default(4)

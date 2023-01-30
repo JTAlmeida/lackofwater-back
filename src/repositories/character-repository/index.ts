@@ -22,6 +22,7 @@ async function updateCharacter(characterId: number, charInfo: UpdateCharacterPar
   return prisma.character.update({
     where: { id: characterId },
     data: {
+      currentSceneId: charInfo.currentSceneId,
       atk: charInfo.atk,
       def: charInfo.def,
       hp: charInfo.hp,
@@ -55,7 +56,7 @@ async function upsertCharacterItem(characterId: number, itemId: number, quantity
 
 export type CreateCharacterParams = Omit<
   Character,
-  "id" | "atk" | "def" | "hp" | "xp" | "lvl" | "isAlive" | "createdAt" | "updatedAt"
+  "id" | "currentSceneId" | "atk" | "def" | "hp" | "xp" | "lvl" | "isAlive" | "createdAt" | "updatedAt"
 >;
 
 export type UpdateCharacterParams = Omit<Character, "id" | "userId" | "name" | "createdAt" | "updatedAt">;
@@ -64,7 +65,6 @@ const characterRepository = {
   findAliveCharacterByUserId,
   createCharacter,
   updateCharacter,
-  //createCharacterItem,
   findCharacterItemByItemId,
   upsertCharacterItem,
 };
