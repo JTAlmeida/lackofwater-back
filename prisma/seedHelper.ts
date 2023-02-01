@@ -33,7 +33,7 @@ const Scenes: CreateManyScenes = [
   },
   {
     description:
-      "Ao ir pelo outro caminho você anda por alguns minutos e nota que tem um guarda mais forte, parecido com um escorpião, de costas.",
+      "Ao seguir andando por alguns minutos e nota que tem um guarda mais forte, parecido com um escorpião, de costas.",
   },
   {
     description: "Você tenta assassinar o guarda, mas falha, ele reage no último instante e te golpeia (-10HP).",
@@ -44,11 +44,11 @@ const Scenes: CreateManyScenes = [
   },
   {
     description:
-      "Você volta e tenta encontrar outros caminhos, após algumas horas evitando combates encontra uma sala suspeita. Ao entrar nela se depara com ninguém menos que o Rei Mechius, um dos reis da raça robótica e protetor do “Fim da Humanidade”.",
+      "Após algumas horas andando e evitando combates, você encontra uma sala suspeita. Ao entrar nela se depara com ninguém menos que o Rei Mechius, um dos reis da raça robótica e protetor do “Fim da Humanidade”.",
   },
   {
     description:
-      "Por fim vence a árdua batalha e vê em um pedestal o “Fim da Humanidade”. Você o pega e escapa, restaurando a água para a humanidade e lhes garantindo a sobrevivência. Com os ânimos restaurados os humanos fazem uma nova investida e massacram o restante dos robôs! Infelizmente você não foi uma exceção... apesar de tê-los salvado ninguém o reconhecia como amigo e, por fim, viu que a raça humana não merecia sua compaixão pois são mesquinhos e egoístas.",
+      "Por fim vence a árdua batalha e vê em um pedestal o “Fim da Humanidade”. Você o pega e escapa, restaurando a água para a humanidade e lhes garantindo a sobrevivência. Com os ânimos restaurados, os humanos fazem uma nova investida e massacram o restante dos robôs! Infelizmente você não foi uma exceção... apesar de tê-los salvado, ninguém o reconhecia como amigo e, por fim, viu que a raça humana não merecia sua compaixão pois são mesquinhos e egoístas.",
   },
   {
     description: "Você encontra um guarda no seu caminho enquanto mapeava o labirinto.",
