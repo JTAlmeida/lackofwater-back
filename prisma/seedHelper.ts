@@ -40,10 +40,6 @@ const Scenes: CreateManyScenes = [
   },
   {
     description:
-      "Você encontra um artefato, ao pegá-lo você o identifica como sendo um tipo de sensor, com ele você consegue saber a posição dos outros guardas e tem um que emana uma energia especial, então decide que ele deve estar guardando o “Fim da Humanidade” e vai para lá. Chegando no local se depara com o Rei Mechius, um dos Reis da raça robótica e protetor do “Fim da Humanidade”.",
-  },
-  {
-    description:
       "Após algumas horas andando e evitando combates, você encontra uma sala suspeita. Ao entrar nela se depara com ninguém menos que o Rei Mechius, um dos reis da raça robótica e protetor do “Fim da Humanidade”.",
   },
   {
