@@ -166,22 +166,18 @@ const SceneOptions: CreateManySceneOptions = [
   },
   {
     sceneId: 7,
-    optionId: 3,
-  },
-  {
-    sceneId: 8,
     optionId: 8,
   },
   {
-    sceneId: 9,
+    sceneId: 8,
     optionId: 3,
   },
   {
-    sceneId: 10,
+    sceneId: 9,
     optionId: 6,
   },
   {
-    sceneId: 10,
+    sceneId: 9,
     optionId: 7,
   },
 ];
