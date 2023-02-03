@@ -33,9 +33,9 @@ async function updateCharacter(characterId: number, charInfo: UpdateCharacterPar
   });
 }
 
-async function findCharacterItemByItemId(itemId: number) {
+async function findCharacterItemByItemId(characterId: number, itemId: number) {
   return prisma.characterItem.findFirst({
-    where: { itemId },
+    where: { characterId, itemId },
   });
 }
 

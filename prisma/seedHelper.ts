@@ -29,7 +29,7 @@ const Scenes: CreateManyScenes = [
   },
   {
     description:
-      "O guarda era mais forte que o outro, mas ao derrotá-lo você percebe que ele carrega um tipo de artefato, ao pegá-lo você o identifica como sendo um tipo de sensor, com ele você consegue saber a posição dos outros guardas e tem um que emana uma energia especial, então decide que ele deve estar guardando o “Fim da Humanidade” e vai para lá. Chegando no local se depara com o Rei Mechius, um dos reis da raça robótica e protetor do “Fim da Humanidade”.",
+      "Você encontra um artefato, ao pegá-lo você o identifica como sendo um tipo de sensor, com ele você consegue saber a posição dos outros guardas e tem um que emana uma energia especial, então decide que ele deve estar guardando o “Fim da Humanidade” e vai para lá. Chegando no local se depara com o Rei Mechius, um dos reis da raça robótica e protetor do “Fim da Humanidade”.",
   },
   {
     description:
@@ -40,7 +40,7 @@ const Scenes: CreateManyScenes = [
   },
   {
     description:
-      "Ao derrotá-lo você percebe que ele carrega um tipo de artefato, ao pegá-lo você o identifica como sendo um tipo de sensor, com ele você consegue saber a posição dos outros guardas e tem um que emana uma energia especial, então decide que ele deve estar guardando o “Fim da Humanidade” e vai para lá. Chegando no local se depara com o Rei Mechius, um dos Reis da raça robótica e protetor do “Fim da Humanidade”.",
+      "Você encontra um artefato, ao pegá-lo você o identifica como sendo um tipo de sensor, com ele você consegue saber a posição dos outros guardas e tem um que emana uma energia especial, então decide que ele deve estar guardando o “Fim da Humanidade” e vai para lá. Chegando no local se depara com o Rei Mechius, um dos Reis da raça robótica e protetor do “Fim da Humanidade”.",
   },
   {
     description:
@@ -99,16 +99,16 @@ const Enemies: CreateManyEnemies = [
     name: "Guarda de Elite",
     atk: 20,
     def: 5,
-    hp: 60,
+    hp: 70,
     exp: 100,
     imgUrl:
       "https://trello.com/1/cards/63c831995a5f1201c630a8e7/attachments/63cefaf480529af3754c766a/previews/63cefaf580529af3754c76d1/download/elite_guard.png",
   },
   {
     name: "Rei Mechius",
-    atk: 30,
-    def: 8,
-    hp: 80,
+    atk: 40,
+    def: 10,
+    hp: 100,
     exp: 10000,
     imgUrl:
       "https://trello.com/1/cards/63c831995a5f1201c630a8e7/attachments/63cefa7d5a990916ad57bd26/previews/63cefa7e5a990916ad57bd30/download/mechius.png",

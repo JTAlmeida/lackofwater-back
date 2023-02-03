@@ -58,7 +58,7 @@ async function upsertCharacterItem(userId: number, characterId: number, itemId: 
     throw cannotFindItem();
   }
 
-  const characterItem = await characterRepository.findCharacterItemByItemId(itemId);
+  const characterItem = await characterRepository.findCharacterItemByItemId(characterId, itemId);
 
   const updatedCharItem = await characterRepository.upsertCharacterItem(characterId, itemId, quantity, characterItem?.id || 0);
 
