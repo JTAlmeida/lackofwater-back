@@ -25,7 +25,7 @@ const Scenes: CreateManyScenes = [
   },
   {
     description:
-      "Após sua vitória, continua pelo caminho do guarda e percebe que apesar de estar sendo guardado anteriormente, era apenas uma distração para te cansar, pois tinha um beco sem saída. Você volta e vai pelo outro caminho que estava próximo ao guarda. Após alguns minutos caminhando, se depara com outro guarda parecendo um escorpião, mas este notou sua presença e o combate é inevitável.",
+      "Você se vê em um caminho sem saída. Você volta e vai pelo outro lado. Após alguns minutos caminhando, se depara com outro guarda parecendo um escorpião que notou sua presença, o combate é inevitável.",
   },
   {
     description:
